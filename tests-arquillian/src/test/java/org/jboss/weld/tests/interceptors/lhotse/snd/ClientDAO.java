@@ -22,8 +22,12 @@
 
 package org.jboss.weld.tests.interceptors.lhotse.snd;
 
+import java.lang.reflect.Method;
+
 import org.jboss.weld.tests.interceptors.lhotse.fst.TimestampedDAO;
 import org.jboss.weld.tests.interceptors.lhotse.fst.Tx;
+
+import ch.qos.cal10n.util.AnnotationExtractor;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -38,6 +42,19 @@ public class ClientDAO extends TimestampedDAO<Client> implements CDAO
    @Tx(0)
    public Client checkClient(Long l)
    {
-      return null;
+   	Method m = null;
+   	try {
+			m = this.getClass().getMethod("checkClient", Long.class);
+		} catch (SecurityException e) {
+			throw new RuntimeException("Method not found.", e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("Method not found.", e);
+		}
+		
+		if (m.getAnnotation(Tx.class) == null) {
+			throw new RuntimeException("Annotation not found.");
+		}
+		
+   	return null;
    }
 }
