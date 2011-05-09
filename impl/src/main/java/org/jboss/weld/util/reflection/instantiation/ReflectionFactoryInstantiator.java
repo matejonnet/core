@@ -20,6 +20,7 @@ import static org.jboss.weld.logging.messages.ReflectionMessage.REFLECTIONFACTOR
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 import org.jboss.weld.exceptions.WeldException;
 
@@ -35,6 +36,8 @@ public class ReflectionFactoryInstantiator implements Instantiator
 
    private Method generator = null;
    private Object reflectionFactoryInstance = null;
+   
+   private static Logger log = Logger.getLogger(ReflectionFactoryInstantiator.class.getName());
 
    public ReflectionFactoryInstantiator()
    {
@@ -45,10 +48,11 @@ public class ReflectionFactoryInstantiator implements Instantiator
          reflectionFactoryInstance = accessor.invoke(null);
          generator = reflectionFactory.getMethod("newConstructorForSerialization", new Class[] { Class.class, Constructor.class });
       }
-      catch (Exception e)
+      catch (Throwable e)
       {
          // TODO Catch explicit subclasses
          // OK to fail
+      	log.warning("Exception swollowed:" + e);
       }
    }
 

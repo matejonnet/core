@@ -20,6 +20,7 @@ import static org.jboss.weld.logging.messages.ReflectionMessage.UNSAFE_INSTANTIA
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 import org.jboss.weld.exceptions.WeldException;
 import org.jboss.weld.util.reflection.SecureReflections;
@@ -37,6 +38,8 @@ public class UnsafeInstantiator implements Instantiator
 
    private Method allocateInstanceMethod = null;
    private Object unsafeInstance = null;
+   
+   private static Logger log = Logger.getLogger(ReflectionFactoryInstantiator.class.getName());
 
    public UnsafeInstantiator()
    {
@@ -48,10 +51,11 @@ public class UnsafeInstantiator implements Instantiator
          unsafeInstance = accessor.get(null);
          allocateInstanceMethod = unsafe.getDeclaredMethod("allocateInstance", Class.class);
       }
-      catch (Exception e)
+      catch (Throwable e)
       {
          // TODO Catch explicit subclasses
          // OK to fail
+      	log.warning("Exception swollowed:" + e);
       }
    }
 
