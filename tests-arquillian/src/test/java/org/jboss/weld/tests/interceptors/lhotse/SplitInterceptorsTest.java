@@ -51,9 +51,9 @@ public class SplitInterceptorsTest
    {
       WebArchive web = ShrinkWrap.create(WebArchive.class).addPackage(SplitInterceptorsTest.class.getPackage());
 
-//      BeanArchive fst = ShrinkWrap.create(BeanArchive.class).intercept(TxInterceptor.class);
-//      fst.addPackage(TDAO.class.getPackage());
-//      web.addLibrary(fst);
+      BeanArchive fst = ShrinkWrap.create(BeanArchive.class);//.intercept(TxInterceptor.class);
+      fst.addPackage(TDAO.class.getPackage());
+      web.addLibrary(fst);
 
       BeanArchive snd = ShrinkWrap.create(BeanArchive.class).intercept(TxInterceptor.class);
       snd.addPackage(CDAO.class.getPackage());
