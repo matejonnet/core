@@ -43,8 +43,11 @@ public class ClientDAO extends TimestampedDAO<Client> implements CDAO
    public Client checkClient(Long l)
    {
    	Method m = null;
+   	Class<? extends ClientDAO> clazz = this.getClass();
+   	System.out.print("class: " + clazz.getCanonicalName());
+
    	try {
-			m = this.getClass().getMethod("checkClient", Long.class);
+   		m = clazz.getMethod("checkClient", Long.class);
 		} catch (SecurityException e) {
 			throw new RuntimeException("Method not found.", e);
 		} catch (NoSuchMethodException e) {
